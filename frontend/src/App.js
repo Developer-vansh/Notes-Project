@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Home from "./Home";
 import Register from "./Register";
 import Login from "./Login";
+import Home from "./Home";
 import "./App.css";
 
 function App() {
@@ -11,7 +11,7 @@ function App() {
       <Routes>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home />} /> {/* Route to MainApp */}
       </Routes>
     </Router>
   );
