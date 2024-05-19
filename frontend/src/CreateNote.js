@@ -11,6 +11,22 @@ function CreateNote() {
     const note = { title, content };
     try {
       console.log(note);
+      await fetch("http://localhost:8002/api/v1/note/addnote", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(note),
+      }).then((response) => {
+        if (response.ok) {
+          console.log("Note saved successfully");
+          alert("Note saved successfully");
+          window.location.href = "/";
+        } else {
+          console.error("Error saving the note:", response.statusText);
+          alert("Error saving the note.");
+        }
+      });
     } catch (error) {
       console.error("Error saving the note:", error);
       alert("Error saving the note.");
