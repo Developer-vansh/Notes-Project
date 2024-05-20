@@ -13,7 +13,7 @@ export const verifyJWT = asyncHandler(async (req, res, next) => {
 
   // Find user by primary key (id)
   const user = await User.findByPk(decoded._id, {
-    attributes: { exclude: ['password', 'refreshToken'] }
+    attributes: { exclude: ["password", "refreshToken"] },
   });
 
   if (!user) throw new ApiError(401, "Invalid Token");
