@@ -17,6 +17,19 @@ const fetchallnotes = asyncHandler(async (req, res) => {
   }
 });
 
+const fetchonenote = asyncHandler(async (req, res) => {
+  try {
+    const note = await Notes.findByPk(req.params.id);
+    if (!note) {
+      return res.status(404).send("Not Found");
+    }
+    res.json(note);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 const addnote = asyncHandler(async (req, res) => {
   try {
     console.log(req.user.id);
@@ -78,4 +91,4 @@ const deletenote = asyncHandler(async (req, res) => {
   }
 });
 
-export { fetchallnotes, addnote, updatenote, deletenote };
+export { fetchallnotes, addnote, updatenote, deletenote, fetchonenote };

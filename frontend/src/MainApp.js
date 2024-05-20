@@ -50,7 +50,11 @@ function MainApp() {
         <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
           {allNotes &&
             allNotes.map((note) => (
-              <div key={note.id} class="note-item">
+              <div
+                key={note.id}
+                class="note-item"
+                onClick={() => (window.location.href = `/view-note/${note.id}`)}
+              >
                 <FaNoteSticky />
                 <div class="note-title">{note.title}</div>
               </div>
