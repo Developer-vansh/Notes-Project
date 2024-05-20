@@ -3,6 +3,7 @@ import { ApiError } from "../utils/ApiError.js";
 import User  from "../models/user.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
+import mail from "../utils/nodemailer.js";
 
 
 const generateAccessAndRefreshToken = async (user) => {
@@ -35,7 +36,11 @@ const registerUser = asyncHandler(async (req, res) => {
 
   // Create new user
   const createdUser = await User.create({ name, email, password });
-
+  
+  if (!createdUser) {
+    throw new ApiError(500, "User not created");
+  }
+  mail(email);
   // Return success response
   return res.status(201).json(new ApiResponse(200, createdUser, "User created successfully"));
   } catch (error) {
