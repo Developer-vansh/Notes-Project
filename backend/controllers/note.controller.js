@@ -51,9 +51,9 @@ const updatenote = asyncHandler(async (req, res) => {
   try {
     const { title, content } = req.body;
     const updatedNote = {};
-
+    console.log(req.body)
     if (title) updatedNote.title = title;
-    if (content) updatedNote.description = content;
+    if (content) updatedNote.content = content;
 
     const note = await Notes.findByPk(req.params.id);
     if (!note) {
