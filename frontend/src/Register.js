@@ -56,8 +56,8 @@ function Register() {
 
   return (
     <div className="register-container">
-      <h2>Register</h2>
       <form className="register-form" onSubmit={handleSubmit}>
+      <h2 className="heading">Register</h2>
         <div className="form-group">
           <label htmlFor="name">Name</label>
           <input

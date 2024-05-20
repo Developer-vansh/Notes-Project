@@ -1,27 +1,29 @@
+import React from "react";
 import MainApp from "./MainApp";
 import { Link } from "react-router-dom";
+import './Home.css'; 
 
 function Home() {
   const accessToken = localStorage.getItem("accessToken");
 
   return (
-    <div>
-      <div className="App">
-        {accessToken ? (
-          <MainApp />
-        ) : (
-          <header className="App-header">
-            <h1>Welcome to iNotes</h1>
-            <p>Taking Notes Made Easy</p>
-            <Link className="App-link" to="/register">
+    <div className="App">
+      {accessToken ? (
+        <MainApp />
+      ) : (
+        <header className="App-header">
+          <h1>Welcome to iNotes</h1>
+          <p>Taking Notes Made Easy</p>
+          <div className="button-container">
+            <Link className="App-button" to="/register">
               Register
             </Link>
-            <Link className="App-link" to="/login">
+            <Link className="App-button" to="/login">
               Login
             </Link>
-          </header>
-        )}
-      </div>
+          </div>
+        </header>
+      )}
     </div>
   );
 }
