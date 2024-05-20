@@ -6,9 +6,6 @@ import "./CreateNote.css";
 
 Quill.register("modules/imageResize", ImageResize);
 
-/*
- * Simple editor component that takes placeholder text as a prop
- */
 class CreateNote extends Component {
   constructor(props) {
     super(props);
@@ -94,10 +91,6 @@ class CreateNote extends Component {
   }
 }
 
-/*
- * Quill modules to attach to editor
- * See https://quilljs.com/docs/modules/ for complete options
- */
 CreateNote.modules = {
   toolbar: [
     [{ header: "1" }, { header: "2" }, { font: [] }],
@@ -113,7 +106,6 @@ CreateNote.modules = {
     ["clean"],
   ],
   clipboard: {
-    // toggle to add extra line breaks when pasting HTML:
     matchVisual: false,
   },
   imageResize: {
@@ -122,10 +114,7 @@ CreateNote.modules = {
   },
 };
 
-/*
- * Quill editor formats
- * See https://quilljs.com/docs/formats/
- */
+
 CreateNote.formats = [
   "header",
   "font",
