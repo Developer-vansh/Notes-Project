@@ -1,10 +1,8 @@
 import React from "react";
-import CreateNote from "./CreateNote";
 import "./MainApp.css";
+import { FaNoteSticky } from "react-icons/fa6";
 
 function MainApp() {
-  const [showCreateNote, setShowCreateNote] = React.useState(false);
-
   const [allNotes, setAllNotes] = React.useState([]);
 
   const getNotes = async () => {
@@ -28,22 +26,37 @@ function MainApp() {
 
   return (
     <div className="main-app">
-      <h2>Main Application</h2>
-
       <div class="notes-container">
-        <h2 class="notes-title">Notes</h2>
+        <div class="notes-header">
+          <h2 class="notes-title">Notes</h2>
+
+          <div class="notes-info-box">
+            <div>
+              <div class="notes-count">Total Notes: {allNotes.length}</div>
+            </div>
+            <button
+              class="create-note-button"
+              onClick={() => {
+                window.location.href = "/create-note";
+              }}
+            >
+              Create Note
+            </button>
+          </div>
+        </div>
+
         <p class="notes-description">Here you can see all your notes.</p>
 
-        {allNotes &&
-          allNotes.map((note) => (
-            <div key={note.id} class="note-item">
-              <h3 class="note-title">{note.title}</h3>
-            </div>
-          ))}
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
+          {allNotes &&
+            allNotes.map((note) => (
+              <div key={note.id} class="note-item">
+                <FaNoteSticky />
+                <div class="note-title">{note.title}</div>
+              </div>
+            ))}
+        </div>
       </div>
-
-      <button onClick={() => setShowCreateNote(true)}>Create Note</button>
-      {showCreateNote && <CreateNote />}
     </div>
   );
 }
