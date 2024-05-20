@@ -7,10 +7,11 @@ function Home() {
   const accessToken = localStorage.getItem("accessToken");
 
   return (
-    <div className="App">
+    <div >
       {accessToken ? (
         <MainApp />
       ) : (
+        <div className="App">
         <header className="App-header">
           <h1>Welcome to iNotes</h1>
           <p>Taking Notes Made Easy</p>
@@ -23,6 +24,7 @@ function Home() {
             </Link>
           </div>
         </header>
+      </div>
       )}
     </div>
   );

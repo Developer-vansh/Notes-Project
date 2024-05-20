@@ -19,7 +19,8 @@ const generateAccessAndRefreshToken = async (user) => {
 };
 
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
+  try {
+    const { name, email, password } = req.body;
 
   // Validation: Check if required fields are empty
   if ([email, password].some((value) => value.trim() === "")) {
@@ -37,10 +38,15 @@ const registerUser = asyncHandler(async (req, res) => {
 
   // Return success response
   return res.status(201).json(new ApiResponse(200, createdUser, "User created successfully"));
+  } catch (error) {
+    console.log(error);
+   return res.status(500).json(new ApiResponse(500, null, "Something Went Wrong While Creating User"));
+  }
 });
 
 const loginUser = asyncHandler(async (req, res) => {
-  // Get user email and password from frontend
+  try {
+    // Get user email and password from frontend
   const { email,  password } = req.body;
 
   // Validation: Check if  email and password are provided
@@ -66,6 +72,10 @@ const loginUser = asyncHandler(async (req, res) => {
   return res
     .status(200)
     .json(new ApiResponse(200, { loggedInUser, accessToken, refreshToken }, "User logged in successfully"));
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(new ApiResponse(500, null, "Something Went Wrong While Logging In User"));
+  }
 });
 
 const getCurrentUser = asyncHandler(async (req, res) => {

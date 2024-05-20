@@ -25,7 +25,7 @@ function Login() {
         },
         body: JSON.stringify(formData),
       });
-
+    console.log("response", response)
       if (response.ok) {
         const data = await response.json();
         console.log("Login successful:", data);
@@ -48,9 +48,11 @@ function Login() {
         // Redirect to home page
         window.location.href = "/";
       } else {
+        alert ("Failed to login")
         console.error("Failed to login");
       }
     } catch (error) {
+      alert ("Failed to login")
       console.error("Error:", error);
     }
   };

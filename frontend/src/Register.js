@@ -47,9 +47,11 @@ function Register() {
         // redirect to login page
         window.location.href = "/login";
       } else {
+        alert("Failed to create user");
         console.error("Failed to create user");
       }
     } catch (error) {
+      alert("Failed to create user");
       console.error("Error:", error);
     }
   };

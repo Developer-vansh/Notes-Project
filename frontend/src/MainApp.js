@@ -27,7 +27,7 @@ function MainApp() {
   }, []);
 
   return (
-    <div>
+    <div className="main-app">
       <h2>Main Application</h2>
 
       <div class="notes-container">
