@@ -24,22 +24,66 @@
 }
 
 .note-item {
+    display: flex;
     background: #f9f9f9;
     padding: 15px;
     border: 1px solid #ddd;
-    border-radius: 5px;
+    border-radius: 30px;
     margin-bottom: 10px;
     transition: all 0.3s ease-in-out;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
 }
 
 .note-title {
     margin: 0;
-    font-size: 1.5rem;
+    font-size: 1rem;
     color: #444;
 }
 
 .note-item:hover {
     transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.notes-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.notes-info-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.notes-count {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #444;
+    border: #ccc 1px solid;
+    padding: 0.7rem 1.5rem;
+    border-radius: 30px;
+}
+
+.create-note-button {
+    background: #666;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.create-note-button:hover {
+    background: gray;
+    color: white;
+    transition: all 0.3s ease-in-out;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 

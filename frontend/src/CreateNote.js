@@ -1,14 +1,28 @@
-import React, { useState } from "react";
-import ReactQuill from "react-quill";
+import { Component } from "react";
+import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import ImageResize from "quill-image-resize-module-react";
 import "./CreateNote.css";
 
-function CreateNote() {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+Quill.register("modules/imageResize", ImageResize);
 
-  const handleSave = async () => {
-    const note = { title, content };
+/*
+ * Simple editor component that takes placeholder text as a prop
+ */
+class CreateNote extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { editorHtml: "", title: "" };
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(html) {
+    this.setState({ editorHtml: html });
+    console.log(html);
+  }
+
+  handleSave = async () => {
+    const note = { title: this.state.title, content: this.state.editorHtml };
     try {
       console.log(note);
       await fetch("http://localhost:8002/api/v1/note/addnote", {
@@ -34,67 +48,99 @@ function CreateNote() {
     }
   };
 
-  const modules = {
-    toolbar: [
-      [{ header: [1, 2, false] }],
-      ["bold", "italic", "underline", "strike", "blockquote"],
-      [
-        { list: "ordered" },
-        { list: "bullet" },
-        { indent: "-1" },
-        { indent: "+1" },
-      ],
-      ["link", "image"],
-      ["clean"],
-    ],
-  };
-
-  const formats = [
-    "header",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "blockquote",
-    "list",
-    "bullet",
-    "indent",
-    "link",
-    "image",
-  ];
-
-  return (
-    <div className="create-note-container">
-      <h2>Create Note</h2>
-      <form className="create-note-form" onSubmit={(e) => e.preventDefault()}>
+  render() {
+    return (
+      <div className="create-note-container">
+        <div className="create-note-header">
+          <h1>Create Note</h1>
+          <div className="button-container">
+            {/* Cancel button */}
+            <button
+              className="cancel-button"
+              onClick={() => {
+                window.location.href = "/";
+              }}
+            >
+              Cancel
+            </button>
+            <button className="save-button" onClick={() => this.handleSave()}>
+              Save
+            </button>
+          </div>
+        </div>
         <div className="form-group">
           <label htmlFor="title">Title</label>
           <input
             type="text"
+            className="form-control"
             id="title"
-            name="title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
+            placeholder="Enter title"
+            value={this.state.title}
+            onChange={(e) => this.setState({ title: e.target.value })}
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="content">Content</label>
-          <ReactQuill
-            theme="snow"
-            value={content}
-            onChange={setContent}
-            className="quill-editor"
-            modules={modules}
-            formats={formats}
-          />
-        </div>
-        <button type="button" className="save-button" onClick={handleSave}>
-          Save Note
-        </button>
-      </form>
-    </div>
-  );
+
+        <ReactQuill
+          theme={this.state.theme}
+          onChange={this.handleChange}
+          value={this.state.editorHtml}
+          modules={CreateNote.modules}
+          formats={CreateNote.formats}
+          bounds={"#root"}
+          placeholder={this.props.placeholder}
+        />
+      </div>
+    );
+  }
 }
+
+/*
+ * Quill modules to attach to editor
+ * See https://quilljs.com/docs/modules/ for complete options
+ */
+CreateNote.modules = {
+  toolbar: [
+    [{ header: "1" }, { header: "2" }, { font: [] }],
+    [{ size: [] }],
+    ["bold", "italic", "underline", "strike", "blockquote"],
+    [
+      { list: "ordered" },
+      { list: "bullet" },
+      { indent: "-1" },
+      { indent: "+1" },
+    ],
+    ["link", "image", "video"],
+    ["clean"],
+  ],
+  clipboard: {
+    // toggle to add extra line breaks when pasting HTML:
+    matchVisual: false,
+  },
+  imageResize: {
+    parchment: Quill.import("parchment"),
+    modules: ["Resize", "DisplaySize"],
+  },
+};
+
+/*
+ * Quill editor formats
+ * See https://quilljs.com/docs/formats/
+ */
+CreateNote.formats = [
+  "header",
+  "font",
+  "size",
+  "bold",
+  "italic",
+  "underline",
+  "strike",
+  "blockquote",
+  "list",
+  "bullet",
+  "indent",
+  "link",
+  "image",
+  "video",
+];
 
 export default CreateNote;
