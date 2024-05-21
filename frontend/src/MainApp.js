@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./MainApp.css";
 import { FaNoteSticky } from "react-icons/fa6";
 
 function MainApp() {
   const [allNotes, setAllNotes] = React.useState([]);
-
+   const [theme, setTheme] = React.useState("light");
   const getNotes = async () => {
     const response = await fetch(
       "http://localhost:8002/api/v1/note/fetchallnotes",
@@ -23,16 +23,30 @@ function MainApp() {
   React.useEffect(() => {
     getNotes();
   }, []);
-
+  
+  const toggleTheme = () => {
+     setTheme(theme === "light" ? "dark" : "light");
+      if (theme === "light") {
+        localStorage.setItem("theme", "dark");
+      } else {
+        localStorage.setItem("theme", "light");
+      }
+  };
+  useEffect(() => {
+    if (localStorage.getItem("theme") === "dark") {
+      setTheme("dark");
+    } else {
+      setTheme("light");
+    }
+  }, []);
   return (
-    <div className="main-app">
+    <div style={{paddingTop:'30px'}} className={`main-app ${theme==="dark"?"dark":""}`}>
       <div class="notes-container">
         <div class="notes-header">
-          <h2 class="notes-title">Notes</h2>
-
+          <h2 className={`notes-title ${theme==="dark"?"text-color-white":""}`} >Notes</h2>
           <div class="notes-info-box">
             <div>
-              <div class="notes-count">Total Notes: {allNotes.length}</div>
+              <div className={`notes-count ${theme==="dark"?"text-color-white":""}`} >Total Notes: {allNotes.length}</div>
             </div>
             <button
               class="create-note-button"
@@ -43,20 +57,25 @@ function MainApp() {
               Create Note
             </button>
           </div>
+          <button  className={`theme-toggle-button ${theme==="dark"?"text-color-white backgorund-color-grey":""}`} onClick={toggleTheme}>
+            Mode: 
+            {theme === "light" ? " 🌙" : " ☀️"}
+          </button>
         </div>
 
-        <p class="notes-description">Here you can see all your notes.</p>
+        <h2  className={`notes-description ${theme==="dark"?"text-color-white ":""}`}>Here you can see all your notes.</h2>
 
         <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
           {allNotes &&
             allNotes.map((note) => (
               <div
                 key={note.id}
-                class="note-item"
+                class="note-item "
+                className={`note-item ${theme==="dark"?"text-color-white backgorund-color-grey":""}`}
                 onClick={() => (window.location.href = `/view-note/${note.id}`)}
               >
                 <FaNoteSticky />
-                <div class="note-title">{note.title}</div>
+                <div className={`note-title ${theme==="dark"?"text-color-white ":""}`}>{note.title}</div>
               </div>
             ))}
         </div>

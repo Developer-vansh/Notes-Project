@@ -1,6 +1,7 @@
 .main-app
 {
     text-align: center;
+    padding-top: '30px';
 }
 
 .notes-container {
@@ -103,4 +104,15 @@
     .notes-container {
         padding: 10px;
     }
+}
+
+.theme-toggle-button {
+    background: #eeebeb;
+    color: #000000;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
 }

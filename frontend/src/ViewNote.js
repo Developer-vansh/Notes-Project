@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 
 const ViewNote = () => {
   const { noteId } = useParams();
-
+  const [theme, setTheme] = React.useState("light");
   const [note, setNote] = useState({});
 
   // Handle Delete Button
@@ -27,6 +27,12 @@ const ViewNote = () => {
 
   useEffect(() => {
     getNote();
+    if(localStorage.getItem("theme") === "dark"){
+      setTheme("dark");
+    }
+    else{
+      setTheme("light");
+    }
   }, []);
 
   const getNote = async () => {
@@ -46,7 +52,7 @@ const ViewNote = () => {
   };
 
   return (
-    <div>
+    <div className={theme==="dark"?"dark":""}>
       <div className="view-note-header">
         <p className="view-note-title">View Note</p>
         <div className="button-container">

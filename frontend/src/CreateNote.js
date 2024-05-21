@@ -47,9 +47,10 @@ class CreateNote extends Component {
 
   render() {
     return (
-      <div className="create-note-container">
+      <div className={localStorage.getItem('theme')==="dark"?"dark":""}>
+      <div  className={`create-note-container ${localStorage.getItem('theme')==="dark"?"text-color-white backgorund-color-grey":""}`}>
         <div className="create-note-header">
-          <h1>Create Note</h1>
+          <h1 className={` ${localStorage.getItem('theme')==="dark"?"text-color-white ":""}`}>Create Note</h1>
           <div className="button-container">
             {/* Cancel button */}
             <button
@@ -66,10 +67,10 @@ class CreateNote extends Component {
           </div>
         </div>
         <div className="form-group">
-          <label htmlFor="title">Title</label>
+          <div htmlFor="title"  className={ `titl ${localStorage.getItem('theme')==="dark"?"text-color-white":""}` } >Title</div>
           <input
             type="text"
-            className="form-control"
+            className={`form-control ${localStorage.getItem('theme')==="dark"?"text-color-white backgorund-color-grey":""}`}
             id="title"
             placeholder="Enter title"
             value={this.state.title}
@@ -86,6 +87,7 @@ class CreateNote extends Component {
           bounds={"#root"}
           placeholder={this.props.placeholder}
         />
+      </div>
       </div>
     );
   }

@@ -74,6 +74,7 @@ class UpdateNote extends Component {
 
   render() {
     return (
+       <div className={localStorage.getItem('theme')==="dark"?"dark":""}>
       <div className="create-note-container">
         <div className="create-note-header">
           <h1>Update Note</h1>
@@ -113,6 +114,7 @@ class UpdateNote extends Component {
           bounds={"#root"}
           placeholder={this.props.placeholder}
         />
+      </div>
       </div>
     );
   }
