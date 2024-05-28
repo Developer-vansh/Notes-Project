@@ -1,7 +1,6 @@
 import {
   registerUser,
   loginUser,
-  refreshAccessToken,
   getCurrentUser
 } from "../controllers/user.controller.js";
 import { Router } from "express";
@@ -15,8 +14,6 @@ router.route("/register").post(registerUser);
 router.route("/login").post(loginUser);
 
 //secured routes
-
 router.route("/current-user").get(verifyJWT, getCurrentUser);
-router.route("/refresh-token").post(refreshAccessToken);
 
 export default router;

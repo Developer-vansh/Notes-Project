@@ -50,15 +50,5 @@ User.prototype.generateAccessToken = function () {
     );
 };
 
-// Method to generate a refresh token
-User.prototype.generateRefreshToken = function () {
-    return jwt.sign(
-        {
-            _id: this.id,
-        },
-        process.env.REFRESH_TOKEN_SECRET,
-        { expiresIn: process.env.REFRESH_TOKEN_EXPIRY }
-    );
-};
 
 export default User;

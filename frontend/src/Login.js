@@ -36,9 +36,6 @@ function Login() {
         // Store the access token in local storage
         localStorage.setItem("accessToken", data.data.accessToken);
 
-        // Store the refresh token in local storage
-        localStorage.setItem("refreshToken", data.data.refreshToken);
-
         // Reset the form
         setFormData({
           email: "",

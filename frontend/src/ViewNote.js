@@ -97,9 +97,10 @@ const ViewNote = () => {
         <p className="view-note-title">Note: {note.title}</p>
       </div>
 
-      <div className="view-note-container">
+      <div className={`view-note-container ${localStorage.getItem('theme')==="dark"?"backgorund-color-grey text-color-white ":""}`}>
         <div
-          className="view-note"
+          className="view-note" 
+          
           dangerouslySetInnerHTML={{ __html: note.content }}
         ></div>
       </div>

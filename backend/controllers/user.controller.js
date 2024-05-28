@@ -6,13 +6,12 @@ import jwt from "jsonwebtoken";
 import mail from "../utils/nodemailer.js";
 
 
-const generateAccessAndRefreshToken = async (user) => {
+const generateAccessToken = async (user) => {
   try {
-    const refreshToken = user.generateRefreshToken();
     const accessToken = user.generateAccessToken();
-    user.refreshToken = refreshToken;
+    user.refreshToken = accessToken;
     await user.save({ validateBeforeSave: false });
-    return { accessToken, refreshToken };
+    return  accessToken;
   } catch (error) {
     console.log(error);
     throw new ApiError(500, "Something Went Wrong While Generating Token");
@@ -68,15 +67,15 @@ const loginUser = asyncHandler(async (req, res) => {
   if (!isPasswordValid) throw new ApiError(401, "Invalid user credentials");
 
   // Generate access token and refresh token
-  const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user);
+  const accessToken = await generateAccessToken(user);
 
   // Fetch updated user and send cookies
   const loggedInUser = await User.findByPk(user.id, { attributes: { exclude: ['password', 'refreshToken'] } });
 
-  // Set cookies and return success response
+  //  return success response
   return res
     .status(200)
-    .json(new ApiResponse(200, { loggedInUser, accessToken, refreshToken }, "User logged in successfully"));
+    .json(new ApiResponse(200, { loggedInUser, accessToken }, "User logged in successfully"));
   } catch (error) {
     console.log(error);
     return res.status(500).json(new ApiResponse(500, null, "Something Went Wrong While Logging In User"));
@@ -88,37 +87,10 @@ const getCurrentUser = asyncHandler(async (req, res) => {
     return res.status(200).json(new ApiResponse(200, user, "User details fetched successfully"));
   } );
 
-const refreshAccessToken = asyncHandler(async (req, res) => {
-    // Get refresh token from user
-    const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken;
-    if (!incomingRefreshToken) throw new ApiError(401, "Unauthorized request");
-  
-    // Decode token
-    const decoded = jwt.verify(incomingRefreshToken, process.env.REFRESH_TOKEN_SECRET);
-    if (!decoded || !decoded.id) throw new ApiError(401, "Invalid Refresh Token");
-  
-    // Find user by ID
-    const user = await User.findByPk(decoded.id);
-    if (!user) throw new ApiError(401, "Invalid Refresh Token");
-  
-    // Verify token with the token stored in the user database
-    if (user.refreshToken !== incomingRefreshToken) {
-      throw new ApiError(401, "Invalid Refresh Token");
-    }
-  
-    // If valid, generate access and refresh tokens
-    const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user);
-  
-    return res
-      .status(200)
-      .json(new ApiResponse(200, { accessToken, refreshToken }, "Access Token Refreshed Successfully"));
-  });
-
 
 
 export {
   registerUser,
   loginUser,
-  refreshAccessToken,
   getCurrentUser
 };
